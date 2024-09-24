@@ -39,7 +39,7 @@ h1 {
     border-radius: 10px;
 }
 
-.dessert-card .dessert-display button {
+.dessert-card .dessert-display .add-to-cart {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -52,9 +52,13 @@ h1 {
     border-radius: 25px;
 }
 
-.dessert-card .dessert-display button p {
+.dessert-card .dessert-display .add-to-cart p {
     color:hsl(14, 65%, 9%);
     font-weight: 600;
+}
+
+.dessert-card .dessert-display .add-to-cart .incrementBtn {
+    
 }
 
 .dessert-card .dessert-details {
