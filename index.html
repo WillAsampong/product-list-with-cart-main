@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+  <link rel="stylesheet" href="styles.css">
   <title>Frontend Mentor | Product list with cart</title>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
@@ -23,7 +23,9 @@
           <div class="dessert-display">
             <img src="" alt="">
             <button class="add-to-cart">
-              <span></span>
+              <span>
+                <img src="./assets/images/icon-add-to-cart.svg" alt="">
+              </span>
               <p>Add to Cart</p>
             </button>
           </div>
@@ -41,17 +43,22 @@
         </div>
       </template>
     </div>
-    <div class="cart">
+
+    <div class="empty-cart">
       <div class="heading">
-        <h2></h2>
+        <h2>Your Cart</h2>
         <div class="num-of-items">
           <span></span>
         </div>
       </div>
-      <img src="./assets/images/icon-add-to-cart.svg" alt="">
+      <div class="empty-cart-img">
+        <img src="./assets/images/illustration-empty-cart.svg" alt="">
+      </div>
       <p>Your added items will appear here</p>
     </div>
   </main>
+
+  <script src="script.js"></script>
 
   <!-- <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
