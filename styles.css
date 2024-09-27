@@ -57,8 +57,12 @@ h1 {
     font-weight: 600;
 }
 
-.dessert-card .dessert-display .add-to-cart .incrementBtn {
-    
+.dessert-display .add-to-cart.selected {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    background-color: hsl(14, 86%, 42%);
+    color:hsl(13, 31%, 94%);
 }
 
 .dessert-card .dessert-details {
@@ -94,24 +98,39 @@ h1 {
 
 
 
-.empty-cart {
+.cart {
     background-color: hsl(20, 50%, 98%);
     padding: 20px;
     border-radius: 10px;
 }
 
-.empty-cart h2 {
+.cart .heading {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.cart h2 {
+    font-size: 30px;
     color: hsl(14, 86%, 42%);
 }
 
-.empty-cart .empty-cart-img {
+.cart .cart-img {
     display: flex;
     justify-content: center;
 }
 
-.empty-cart p {
+.cart p {
     font-size: 14px;
     font-weight: 700;
     color: hsl(7, 20%, 60%);
     text-align: center;
 }
+
+/* .cart-items ul li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-items ul li .cart-item-details {
+    display: flex;
+} */
