@@ -11,22 +11,26 @@ fetch('./data.json')
         const dessertId = card.name;
         
 
-        let dessertThumbnail = dessertCard.querySelector('.dessert-display img');
-        let dessertCategory = dessertCard.querySelector('.dessert-details .category p');
-        let dessertName = dessertCard.querySelector('.dessert-details .name p');
-        let dessertPrice = dessertCard.querySelector('.dessert-details .price p');
+        const dessertThumbnail = dessertCard.querySelector('.dessert-display img');
+        const dessertCategory = dessertCard.querySelector('.dessert-details .category p');
+        const dessertName = dessertCard.querySelector('.dessert-details .name p');
+        const dessertPrice = dessertCard.querySelector('.dessert-details .price p');
         const AddtocartBtn = dessertCard.querySelector('.dessert-display .add-to-cart');
 
         
         dessertThumbnail.src = card.image.thumbnail;
         dessertCategory.textContent = card.category;
         dessertName.textContent = card.name;
-        dessertPrice.textContent = `$${card.price}`;
+        dessertPrice.textContent = `$${card.price.toFixed(2)}`;
 
         grid.appendChild(dessertCard);
 
 
-        AddtocartBtn.addEventListener('click', () => cardSelect(dessertThumbnail, AddtocartBtn, dessertId));
+        AddtocartBtn.addEventListener('click',
+            () => {
+            cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data);
+            displayCartItems(dessertId, data);
+        });
     });
 
 });
@@ -38,10 +42,10 @@ fetch('./data.json')
 //A count variable is initialised and increased with a click on increment-btn and decreased with a click on decrement-btn.//
 
 let dessertQuantity = {};
-function cardSelect(dessertThumbnail, AddtocartBtn, dessertId) {
+function cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data) {
 
     if(!dessertQuantity[dessertId]) {
-        dessertQuantity[dessertId] = 0;
+        dessertQuantity[dessertId] = 1;
     }
     
     dessertThumbnail.style.border = '3px solid hsl(14, 86%, 42%)';
@@ -89,28 +93,57 @@ function cardSelect(dessertThumbnail, AddtocartBtn, dessertId) {
             dessertQuantity[dessertId]--;
             quantityDisplay.textContent = dessertQuantity[dessertId];
         }
+        // displayCartItems(data);
     });
 
     incrementBtn.addEventListener('click', () => {
         dessertQuantity[dessertId]++;
         quantityDisplay.textContent = dessertQuantity[dessertId];
+        // displayCartItems(data);
     })
     
 }
 
 
 
-function displayCartItems (dessertId) {
+function displayCartItems (data) {
     const cart = document.querySelector('.cart');
-    // console.log(cart);
     const listOfItems = cart.querySelector('.cart-items');
-    const numOfItems = cart.querySelector('.heading span');
+    const numOfItems = cart.querySelector('.cart h2 span');
+    const listTemplate = document.querySelector('#list-template');
+    // console.log(listTemplate);
 
-    const ul = document.createElement('ul');
-    const listItem = document.createElement('li');
     
-    listOfItems.appendChild(ul);
+    // console.log(data);
+    let totalItems = 0;
+    
+    listOfItems.innerHTML = '';
+    
+    for(const dessertId in dessertQuantity) {
+        if(dessertQuantity[dessertId] > 0) {
+            totalItems += dessertQuantity[dessertId];
+            const listItem = listTemplate.content.cloneNode(true);
+            // console.log(listItem);
+            
+            const dessertListName = listItem.querySelector('li .desc .dessert-name');
+            const desserListQuantity = listItem.querySelector('li .desc .amount-details .quantity');
+            const dessertListPrice = listItem.querySelector('li .desc .amount-details .dessert-price');
+            const totalAmountOfDessert = listItem.querySelector('li .desc .amount-details .total-amount');
+
+            // const dessertPrice = data.find(item => item.name === dessertId).price;
+            // totalAmountOfDessert.textContent = dessertListPrice * desserListQuantity[dessertId];
+
+            dessertListName.textContent = dessertId;
+            desserListQuantity.textContent = dessertQuantity[dessertId];
+            // dessertListPrice.textContent = `$${dessertPrice.toFixed(2)}`;
+            // totalAmountOfDessert.textContent = `$${totalAmount.toFixed(2)}`;
+
+            listOfItems.appendChild(listItem);
+        }
+    }
+
+    numOfItems.textContent = `(${totalItems})`;
 
 }
 
-displayCartItems()
+// displayCartItems()
