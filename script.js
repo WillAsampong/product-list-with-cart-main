@@ -1,7 +1,7 @@
 fetch('./data.json')
 .then(res => res.json())
 .then(data =>{
-    console.log(data);
+    // console.log(data);
     const grid = document.querySelector('.grid');
     const template = document.querySelector('#dessert-template');
 
@@ -31,6 +31,7 @@ fetch('./data.json')
             cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data);
             displayCartItems(dessertId, data);
         });
+        displayCartItems(dessertId, data);
     });
 
 });
@@ -42,7 +43,7 @@ fetch('./data.json')
 //A count variable is initialised and increased with a click on increment-btn and decreased with a click on decrement-btn.//
 
 let dessertQuantity = {};
-function cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data) {
+function cardSelect(dessertThumbnail, AddtocartBtn, dessertId) {
 
     if(!dessertQuantity[dessertId]) {
         dessertQuantity[dessertId] = 1;
@@ -70,7 +71,6 @@ function cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data) {
     quantityDisplay.style.fontSize = '18px';
     quantityDisplay.classList.add('quantity');
 
-    // Clear the existing button content (optional, based on the initial structure)
     AddtocartBtn.innerHTML = '';
     AddtocartBtn.appendChild(decrementBtn);
     AddtocartBtn.appendChild(quantityDisplay);
@@ -93,57 +93,91 @@ function cardSelect(dessertThumbnail, AddtocartBtn, dessertId, data) {
             dessertQuantity[dessertId]--;
             quantityDisplay.textContent = dessertQuantity[dessertId];
         }
-        // displayCartItems(data);
     });
 
     incrementBtn.addEventListener('click', () => {
         dessertQuantity[dessertId]++;
         quantityDisplay.textContent = dessertQuantity[dessertId];
-        // displayCartItems(data);
-    })
-    
+    });
 }
 
 
 
-function displayCartItems (data) {
+function displayCartItems (dessertId, data) {
     const cart = document.querySelector('.cart');
     const listOfItems = cart.querySelector('.cart-items');
     const numOfItems = cart.querySelector('.cart h2 span');
-    const listTemplate = document.querySelector('#list-template');
-    // console.log(listTemplate);
 
-    
-    // console.log(data);
     let totalItems = 0;
+
+    let totalAmount = 0;
     
     listOfItems.innerHTML = '';
     
-    for(const dessertId in dessertQuantity) {
+    // for(const dessertId in dessertQuantity) {
+    //     if(dessertQuantity[dessertId] > 0) {
+    //         totalItems += dessertQuantity[dessertId];
+    //         const listItem = listTemplate.content.cloneNode(true);
+    //         console.log(listItem);
+            
+    //         const dessertListName = listItem.querySelector('li .desc .dessert-name');
+    //         const desserListQuantity = listItem.querySelector('li .desc .amount-details .quantity');
+    //         const dessertListPrice = listItem.querySelector('li .desc .amount-details .dessert-price');
+    //         const totalAmountOfDessert = listItem.querySelector('li .desc .amount-details .total-amount');
+
+    //         const dessertPrice = data.find(item => item.name === dessertId).price;
+    //         totalAmountOfDessert.textContent = dessertListPrice * desserListQuantity[dessertId];
+
+    //         dessertListName.textContent = dessertId;
+    //         desserListQuantity.textContent = dessertQuantity[dessertId];
+    //         dessertListPrice.textContent = `$${dessertPrice.toFixed(2)}`;
+    //         totalAmountOfDessert.textContent = `$${totalAmount.toFixed(2)}`;
+
+    //         listOfItems.appendChild(listItem);
+    //     }
+    // }
+
+    for(dessertId in dessertQuantity) {
         if(dessertQuantity[dessertId] > 0) {
             totalItems += dessertQuantity[dessertId];
-            const listItem = listTemplate.content.cloneNode(true);
-            // console.log(listItem);
             
-            const dessertListName = listItem.querySelector('li .desc .dessert-name');
-            const desserListQuantity = listItem.querySelector('li .desc .amount-details .quantity');
-            const dessertListPrice = listItem.querySelector('li .desc .amount-details .dessert-price');
-            const totalAmountOfDessert = listItem.querySelector('li .desc .amount-details .total-amount');
+            let dessertListName = dessertId;
+            let desserListQuantity = dessertQuantity[dessertId];
+            let dessertListPrice = data.find(item => item.name === dessertId).price;
+            let totalAmountOfDessert = dessertListPrice * desserListQuantity;
 
-            // const dessertPrice = data.find(item => item.name === dessertId).price;
-            // totalAmountOfDessert.textContent = dessertListPrice * desserListQuantity[dessertId];
+            totalAmount += totalAmountOfDessert;
 
-            dessertListName.textContent = dessertId;
-            desserListQuantity.textContent = dessertQuantity[dessertId];
-            // dessertListPrice.textContent = `$${dessertPrice.toFixed(2)}`;
-            // totalAmountOfDessert.textContent = `$${totalAmount.toFixed(2)}`;
-
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-item');
+            listItem.innerHTML = `
+                <div class="desc">
+                    <p class="dessert-name">${dessertListName}</p>
+                    <div class="amount-details">
+                        <p class="quantity">${desserListQuantity}x</p>
+                        <p class="dessert-price">@${dessertListPrice}</p>
+                        <p class="total-amount">$${totalAmountOfDessert}</p>
+                    </div>
+                </div>
+                <svg class="delete-btn" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path fill="#CAAFA7" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/></svg>
+            `;
             listOfItems.appendChild(listItem);
         }
+        
     }
 
-    numOfItems.textContent = `(${totalItems})`;
+    const orderTotal = document.createElement('div');
+    orderTotal.innerHTML = `
+        <div class="order-total">
+            <p>Order Total</p>
+            <span>$${totalAmount.toFixed(2)}</span>
+        </div>
+    `;
+    listOfItems.appendChild(orderTotal);
 
+
+
+    numOfItems.textContent = `(${totalItems})`;
+    console.log(dessertQuantity);
 }
 
-// displayCartItems()
