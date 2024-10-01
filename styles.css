@@ -40,6 +40,7 @@ h1 {
 }
 
 .dessert-card .dessert-display .add-to-cart {
+    margin: 0;
     position: absolute;
     bottom: 0;
     left: 0;
