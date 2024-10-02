@@ -7,6 +7,7 @@
 }
 
 body {
+
     background-color: hsl(13, 31%, 94%);
 }
 
@@ -165,6 +166,9 @@ h1 {
 .cart .order-total {
     display: flex;
     justify-content: space-between;
+    height: 3em;
+    align-items: center;
+    padding: 20px;
 }
 
 .cart .order-total p {
@@ -175,4 +179,68 @@ h1 {
     font-size: 30px;
     color: hsl(14, 65%, 9%);
     font-weight: 700;
+}
+
+.cart .delivery {
+    display: flex;
+    justify-content: space-around;
+    background-color: hsl(13, 31%, 94%);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.cart .confirm-order-btn {
+    background-color: hsl(14, 86%, 42%);
+    color:hsl(13, 31%, 94%);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 32px;
+    width: 100%;
+    padding: 16px 20px;
+    margin-top: 20px;
+}
+
+.order-summary-modal {
+
+    bottom: 100;
+    display: block;
+    background-color: hsl(20, 50%, 98%);
+    border-radius: 15px 15px 0 0;
+    padding: 30px;
+}
+
+.order-summary-modal h2 {
+    font-size: 40px;
+    color:hsl(14, 65%, 9%);
+}
+
+.order-summary-modal p {
+    color:hsl(12, 20%, 44%);
+}
+
+.order-summary-modal .order-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-summary-modal .order-total span {
+    font-size: 30px;
+    color:hsl(14, 65%, 9%);
+    font-weight: 700;
+}
+
+.order-summary-modal .start-new-order {
+    background-color: hsl(14, 86%, 42%);
+    color:hsl(13, 31%, 94%);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 32px;
+    width: 100%;
+    padding: 16px 20px;
+    margin-top: 20px;
 }
