@@ -225,7 +225,9 @@ function displayOrderSummary(dessertId, totalAmount) {
         <h2>Order Confirmed</h2>
         <p>We hope you enjoy jour food!</p>
         <div class="order-summary">
-            ${dessertId}
+            <div class="dessert-summary-order">
+                
+            </div>
             <div class="order-total">
                 <p>Order Total</p>
                 <span>$${totalAmount.toFixed(2)}</span>
