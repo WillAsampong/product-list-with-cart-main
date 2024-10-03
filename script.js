@@ -57,7 +57,7 @@ function cardSelect(dessertImage, AddtocartBtn, dessertId) {
         dessertQuantity[dessertId] = 1;
     }
     
-    dessertImage.style.border = '3px solid hsl(14, 86%, 42%)';
+    dessertImage.style.border = '4px solid hsl(14, 86%, 42%)';
     AddtocartBtn.classList.add('selected');
 
     if(AddtocartBtn.classList.contains('selected')){
@@ -88,11 +88,12 @@ function cardSelect(dessertImage, AddtocartBtn, dessertId) {
         AddtocartBtn.appendChild(incrementBtn);
     
         const buttonStyles = {
+            textAlign: 'center',
             backgroundColor: 'hsl(14, 86%, 42%)',
             color: 'white',
-            padding: '2px',
+            padding: '3px',
             border: '2px solid hsl(20, 50%, 98%)',
-            borderRadius: '50%',
+            borderRadius: '100%',
         };
     
         Object.assign(incrementBtn.style, buttonStyles);
@@ -209,10 +210,14 @@ function displayCartItems (dessertId, data, dessertImage, AddtocartBtn) {
     confirmOrderBtn.textContent = "Confirm Order";
     listOfItems.appendChild(confirmOrderBtn);
 
-    confirmOrderBtn.addEventListener('click', () => displayOrderSummary(dessertId, totalAmount));
+    confirmOrderBtn.addEventListener('click', () => displayOrderSummary(dessertId, data, totalAmount));
 }
 
-function displayOrderSummary(dessertId, totalAmount) {
+function displayOrderSummary(dessertId, data, totalAmount) {
+    const orderSummaryContainer = document.createElement('div');
+    orderSummaryContainer.classList.add('show');
+    orderSummaryContainer.classList.add('order-summary-container');
+
     const OrderSummaryModal = document.createElement('div');
     OrderSummaryModal.classList.add('order-summary-modal');
     OrderSummaryModal.innerHTML = `
@@ -225,7 +230,7 @@ function displayOrderSummary(dessertId, totalAmount) {
         <h2>Order Confirmed</h2>
         <p>We hope you enjoy jour food!</p>
         <div class="order-summary">
-            <div class="dessert-summary-order">
+            <div class="dessert-order-summary">
                 
             </div>
             <div class="order-total">
@@ -235,6 +240,52 @@ function displayOrderSummary(dessertId, totalAmount) {
         </div>
         <button class="start-new-order">Start New Order</button>
     `;
-    document.querySelector('body').appendChild(OrderSummaryModal);
+
+    const StartNewOrderBtn = OrderSummaryModal.querySelector('.start-new-order');
+    StartNewOrderBtn.addEventListener('click', () => clearCart(orderSummaryContainer));
+
+    const dessertOrderSummary = OrderSummaryModal.querySelector('.dessert-order-summary');
+
+    for(let dessertId in dessertQuantity) {
+        const dessertSummary = document.createElement('li');
+        dessertSummary.classList.add('dessert-summary');
+
+        const dessertThumbnail = data.find(item => item.name === dessertId).image.thumbnail;
+        const unitPrice = data.find(item => item.name === dessertId).price;
+        const totalAmountOfDessertSummary = unitPrice * dessertQuantity[dessertId];
+
+        dessertSummary.innerHTML = `
+            <div class="dessert-summary-image">
+                <img src="${dessertThumbnail}"> 
+            </div>
+            <div class="dessert-summary-listItem">
+                <p class="dessert-summary-name">${dessertId}</p>
+                <div class="quantity-price-summary">
+                    <p class="quantity-summary">${dessertQuantity[dessertId]}x</p>
+                    <p class="unit-price">@ $${unitPrice}</p>
+                </div>
+            </div>
+            <div class="total-dessert-price">
+                $${totalAmountOfDessertSummary}
+            </div>
+        `;
+        dessertOrderSummary.appendChild(dessertSummary);
+    }
+    orderSummaryContainer.appendChild(OrderSummaryModal);
+    document.querySelector('body').appendChild(orderSummaryContainer);
 }
 
+function clearCart(orderSummaryContainer) {
+    orderSummaryContainer.classList.remove('show');
+    dessertQuantity = {};
+    orderSummaryContainer.remove();
+
+    const listOfItems = document.querySelector('.cart-items');
+    const numOfItems = document.querySelector('.cart h2 span');
+    const dessertImage = document.querySelector('.dessert-display img');
+
+    dessertImage.style.border = "none";
+
+    listOfItems.innerHTML = '';
+    numOfItems.textContent = '(0)';
+}

@@ -7,13 +7,13 @@
 }
 
 body {
-
+    position: relative;
     background-color: hsl(13, 31%, 94%);
 }
 
 main {
     /* margin: 10px auto; */
-    padding: 20px;
+    padding: 10px;
 }
 
 h1 {
@@ -40,28 +40,29 @@ h1 {
     border-radius: 10px;
 }
 
-.dessert-card .dessert-display .add-to-cart {
+.dessert-card .dessert-display button .add-to-cart {
     margin: 0;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translate(80%, 50%);
+    bottom: 10px; /* Stick to the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 5px 20px;
     background-color: hsl(20, 50%, 98%);
     border: 1px solid hsl(7, 20%, 60%);
     border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dessert-card .dessert-display .add-to-cart p {
+.dessert-card .dessert-display button .add-to-cart p {
     color:hsl(14, 65%, 9%);
     font-weight: 600;
 }
 
-.dessert-display .add-to-cart.selected {
-    display: flex;
-    justify-content: space-around;
+.dessert-display button .add-to-cart.selected {
+    width: auto;
     gap: 10px;
     background-color: hsl(14, 86%, 42%);
     color:hsl(13, 31%, 94%);
@@ -202,13 +203,41 @@ h1 {
     margin-top: 20px;
 }
 
-.order-summary-modal {
+.order-summary-container {
+    position: absolute;
+    left: 0;
+    bottom: -100%; /* Start off the screen */
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay background */
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1000;
+    opacity: 0;
+}
 
-    bottom: 100;
-    display: block;
-    background-color: hsl(20, 50%, 98%);
-    border-radius: 15px 15px 0 0;
-    padding: 30px;
+@keyframes slideUp {
+  from {
+    transform: translateY(100%); /* Start from below the screen */
+  }
+  to {
+    transform: translateY(0); /* End at its normal position */
+  }
+}
+
+.order-summary-container.show {
+    opacity: 1;
+    bottom: 0;
+}
+
+.order-summary-modal {
+    background-color: white;
+    padding: 20px;
+    width: 90%;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s ease forwards;
 }
 
 .order-summary-modal h2 {
@@ -231,6 +260,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .order-summary-modal .order-total span {
@@ -250,4 +280,37 @@ h1 {
     width: 100%;
     padding: 16px 20px;
     margin-top: 20px;
+}
+
+.dessert-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid hsl(14, 25%, 72%);
+    padding: 10px 0;
+}
+
+.dessert-summary .dessert-summary-name {
+    color: hsl(14, 65%, 9%);
+    font-weight: 700;
+}
+
+.dessert-summary .dessert-summary-image img{
+    width: 70px;
+    border-radius: 7px;
+}
+
+.dessert-summary .quantity-price-summary {
+    display: flex;
+    column-gap: 10px;
+}
+
+.dessert-summary .quantity-price-summary .quantity-summary {
+    color: hsl(14, 86%, 42%);
+    font-weight: 700;
+}
+
+.total-dessert-price {
+    color: hsl(14, 65%, 9%);
+    font-weight: 700;
 }
