@@ -57,7 +57,7 @@ function cardSelect(dessertImage, AddtocartBtn, dessertId) {
         dessertQuantity[dessertId] = 1;
     }
     
-    dessertImage.style.border = '4px solid hsl(14, 86%, 42%)';
+    dessertImage.style.border = '3px solid hsl(14, 86%, 42%)';
     AddtocartBtn.classList.add('selected');
 
     if(AddtocartBtn.classList.contains('selected')){
@@ -111,6 +111,19 @@ function cardSelect(dessertImage, AddtocartBtn, dessertId) {
             dessertQuantity[dessertId]++;
             quantityDisplay.textContent = dessertQuantity[dessertId];
         });
+    } else {
+        AddtocartBtn.classList.remove('selected');
+        AddtocartBtn.innerHTML = `
+            <button>
+              <div class="add-to-cart">
+                <span>
+                  <img src="./assets/images/icon-add-to-cart.svg" alt="">
+                </span>
+                <p>Add to Cart</p>
+              </div>
+            </button>
+        `;
+        dessertImage.style.border = 'none';
     }
 }
 
@@ -178,7 +191,7 @@ function displayCartItems (dessertId, data, dessertImage, AddtocartBtn) {
             const deleteBtn = listItem.querySelector('.delete-btn');
             deleteBtn.addEventListener('click', () => {
                 delete dessertQuantity[dessertId];
-                console.log(dessertQuantity);
+                // console.log(dessertQuantity);
                 listItem.remove();
                 dessertImage.style.border = 'none';
                 AddtocartBtn.classList.remove('selected');
@@ -282,10 +295,31 @@ function clearCart(orderSummaryContainer) {
 
     const listOfItems = document.querySelector('.cart-items');
     const numOfItems = document.querySelector('.cart h2 span');
-    const dessertImage = document.querySelector('.dessert-display img');
 
-    dessertImage.style.border = "none";
-
-    listOfItems.innerHTML = '';
+    listOfItems.innerHTML = `
+        <div class="empty-cart-img">
+          <img src="./assets/images/illustration-empty-cart.svg" alt="">
+        </div>
+        <p class="no-items">Your added items will appear here</p>
+    `;
     numOfItems.textContent = '(0)';
+
+    const dessertCards = document.querySelectorAll('.dessert-card .dessert-display');
+    
+    dessertCards.forEach(dessertCard => {
+        const dessertImage = dessertCard.querySelector('img');
+        const addToCartBtn = dessertCard.querySelector('.add-to-cart');
+
+        // Remove the border from the dessert image
+        dessertImage.style.border = 'none';
+
+        // Revert the Add to Cart button to its original state
+        addToCartBtn.classList.remove('selected');
+        addToCartBtn.innerHTML = `
+            <span>
+                <img src="./assets/images/icon-add-to-cart.svg" alt="">
+            </span>
+            <p>Add to Cart</p>
+        `;
+    });
 }
